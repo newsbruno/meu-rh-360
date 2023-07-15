@@ -1,0 +1,22 @@
+.register-bg {
+  margin: 0px;
+  background: linear-gradient(var(--register-bg-color), var(--register-bg-color)), url('../../assets/imgs/high-five-top-view-business-colleagues-giving-each-other-high-five-symbol-unity-smiling-while-working-board-room.jpg')no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-position: right;
+}
+
+form label {
+  font-size: 0.9em;
+}
+
+input,
+input::placeholder {
+  font-size: 0.9em;
+}
+
+form small {
+  font-size: .7em;
+}

@@ -1,0 +1,24 @@
+<div class="d-flex flex-row align-items-start f-height">
+
+  <app-side-bar></app-side-bar>
+
+  <div class="container-fluid p-0">
+    <app-header></app-header>
+    <div class="container-fluid w-100">
+      <div class="d-flex flex-row justify-content-between p-4">
+        <span>
+          {{ label }}
+        </span>
+
+        <span>
+          Configurações
+        </span>
+      </div>
+      <div class="p-4">
+        <router-outlet name="dashboard"></router-outlet>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,42 @@
+.custom-side-bar{
+  background: var(--primary-color);
+  min-width: 300px;
+  height: 100vh;
+}
+
+.menu-content span {
+  font-size: 1em;
+  text-transform: uppercase;
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+.menu-content h3 {
+  font-size: 0.9em;
+  color: var(--white-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+.menu-content a {
+   text-decoration: none;
+   margin-top: 0.8rem;
+   color: var(--white-color);
+   font-weight: 700;
+   font-size: 0.9em;
+}
+
+fa-icon {
+  color: var(--white-color);
+  margin: auto;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+li fa-icon {
+  margin: 0;
+}

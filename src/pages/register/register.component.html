@@ -1,0 +1,48 @@
+<div class="container-fluid w-100 p-0 f-height">
+  <div class="row p-0 f-height">
+    <div class="col register-bg d-flex justify-content-center align-items-center">
+
+      <app-rate-item *ngFor="let rate of rates" [signature]="rate.signature" [title]="rate.title"
+        [description]="rate.description">
+      </app-rate-item>
+
+    </div>
+
+    <div class="col-4 d-flex flex-column p-4">
+      <img class="img-fluid mb-2" width="120px" src="assets/imgs/main-logo.png" />
+
+
+      <span class="mt-5"> <b> Crie uma conta profissional </b> </span>
+      <small class="mb-3"> Preencha seus dados para ter acesso </small>
+
+      <form>
+        <div class="form-group mt-2">
+          <label class="my-1">Nome completo</label>
+          <input type="text" class="form-control" placeholder="Digite seu nome completo">
+        </div>
+        <div class="form-group mt-2">
+          <label class="my-1">E-mail</label>
+          <input type="email" class="form-control" placeholder="Digite seu e-mail cadastrado / ex: email@gmail.com">
+        </div>
+        <div class="form-group mt-2">
+          <label class="my-1">Senha</label>
+          <input type="password" class="form-control" placeholder="Digite uma senha forte">
+        </div>
+
+        <div class="form-group mt-2">
+          <label class="my-1">Confirmação de senha</label>
+          <input type="password" class="form-control" placeholder="Repita a senha">
+        </div>
+
+        <div class="form-check my-2">
+          <input type="checkbox" class="form-check-input" id="acceptCheck">
+          <small class="form-check-label" for="acceptCheck">Eu aceito os <a href=""> Termos de Uso & Privacidade </a>
+            e o <a href="">
+              Contrato de Serviço </a> </small>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block w-100 my-3">Criar conta</button>
+      </form>
+
+    </div>
+  </div>
+</div>

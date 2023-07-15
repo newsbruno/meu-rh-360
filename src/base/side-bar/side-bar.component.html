@@ -1,0 +1,47 @@
+<div class="custom-side-bar d-flex flex-column align-items-start">
+  <img width="140px" height="auto" class="img-fluid p-2" src="assets/imgs/logo-footer.png" />
+
+  <div class="d-flex flex-column menu-content p-3 w-100">
+    <div *ngFor="let route of routes">
+      <div *ngFor="let child of route.children;">
+        <div class="mt-4" *ngIf="child.data">
+
+          <span> {{child.data['label']}} </span>
+
+
+          <ul class="list-group mt-2" *ngFor="let grandchild of child.children; let i = index">
+            <div *ngIf="grandchild.data">
+
+              <li (click)="grandchild.children ? toggleChildMenu(i) : goTo(child.path,grandchild.path)" class="pointer">
+
+                <fa-icon [icon]="grandchild.data['icon']" size="xs"></fa-icon>
+
+                <h3 class="mx-3">
+                  {{grandchild.data['label']}}
+                </h3>
+
+                <fa-icon class="mx-3" *ngIf="grandchild.children" size="xs"
+                  [icon]="expandedChildIndices[i] ? ['fas', 'chevron-up'] : ['fas', 'chevron-down']"
+                  size="xs"></fa-icon>
+
+              </li>
+
+
+              <div *ngIf="expandedChildIndices[i]">
+                <li class="pointer" *ngFor="let lastChild of grandchild.children">
+
+                  <a [routerLink]="[child.path, grandchild.path]" class="child-route">{{lastChild.data!['label']}}</a>
+
+                </li>
+              </div>
+
+            </div>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
