@@ -1,0 +1,16 @@
+.modal h5 {
+  color: var(--primary-color);
+}
+
+.card-box {
+  box-shadow: var(--smooth-shadow);
+}
+
+.card-box span {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.ml-2 {
+  margin-left: 0.5rem !important;
+}

@@ -1,15 +1,99 @@
+import { LocalStorageService } from 'src/services/localStorage.service';
 import { Component, OnInit } from '@angular/core';
+import { AnimationOptions } from 'ngx-lottie';
+import { User } from 'src/models/user.model';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { LocalidadeService } from 'src/services/localidade.service';
+import { lastValueFrom } from 'rxjs';
+import { RegisterCompany } from 'src/guards/register-company.model';
 
 @Component({
   selector: 'app-my-company',
   templateUrl: './my-company.component.html',
-  styleUrls: ['./my-company.component.css']
+  styleUrls: ['./my-company.component.css'],
 })
 export class MyCompanyComponent implements OnInit {
+  options: AnimationOptions = {
+    path: '/assets/vectors/animation_lk4u6rs5.json',
+  };
 
-  constructor() { }
+  currentUser: User | null = {} as User;
+
+  registerCompanyForm = this.fb.group({
+    tipoEmpresa: ['', [Validators.required, Validators.maxLength(50)]],
+    nomeEmpresa: ['', [Validators.required, Validators.maxLength(100)]],
+    cnpjEmpresa: ['', [Validators.required, this.patternValidator(/^\d{14}$/)]],
+    cep: ['', [Validators.required, this.patternValidator(/^\d{8}$/)]],
+    endereco: ['', [Validators.required, Validators.maxLength(150)]],
+    bairro: ['', [Validators.required, Validators.maxLength(50)]],
+    estado: ['', Validators.required],
+    cidade: ['', Validators.required],
+    complemento: ['', Validators.maxLength(100)],
+    celular: ['', [Validators.required, this.patternValidator(/^\d{11}$/)]],
+    nomeAdministrador: ['', [Validators.required, Validators.maxLength(100)]],
+    cpf: ['', [Validators.required, this.patternValidator(/^\d{11}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+  });
+
+  estados: any[] | undefined;
+  cidades: any[] | undefined;
+
+  registerCompany : RegisterCompany | null = {} as RegisterCompany;
+
+  constructor(
+    public localStorageService: LocalStorageService,
+    private fb: FormBuilder,
+    private localidadeService: LocalidadeService
+  ) {}
 
   ngOnInit() {
+    this.currentUser = this.localStorageService.getUser;
+    this.registerCompany = this.localStorageService.getRegisterCompany;
+    this.initEstados();
   }
 
+  async initEstados() {
+    const result = await lastValueFrom(this.localidadeService.getEstados());
+    this.estados = result;
+  }
+
+  async onEstadoSelected(val: any) {
+    const result = await lastValueFrom(
+      this.localidadeService.getCidades(Number(val.target.value))
+    );
+    this.cidades = result;
+  }
+
+  onSubmit(): void {
+    if (this.registerCompanyForm.invalid) {
+      this.registerCompanyForm.markAllAsTouched();
+      return;
+    }
+
+    this.localStorageService.saveRegisterCompany = this.registerCompanyForm
+      .value as RegisterCompany;
+  }
+
+  patternValidator(pattern: RegExp): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      let value = control.value;
+      if (value) {
+        value = value
+          .replace(/_/g, '')
+          .replace(/-/g, '')
+          .replace(/\./g, '')
+          .replace(/\//g, '')
+          .replace(/\(/g, '')
+          .replace(/\)/g, '')
+          .replace(/\s+/g, '');
+      }
+      const isValid = pattern.test(value);
+      return isValid ? null : { pattern: { value: control.value } };
+    };
+  }
 }

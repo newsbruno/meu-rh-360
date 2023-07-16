@@ -1,16 +1,17 @@
 <div class="custom-side-bar d-flex flex-column align-items-start">
   <img width="140px" height="auto" class="img-fluid p-2" src="assets/imgs/logo-footer.png" />
 
+
   <div class="d-flex flex-column menu-content p-3 w-100">
     <div *ngFor="let route of routes">
       <div *ngFor="let child of route.children;">
-        <div class="mt-4" *ngIf="child.data">
+        <div class="mt-4" *ngIf="child.data && (child.data['requiresRegister'] ? locStor.isRegistered() : true) ">
 
           <span> {{child.data['label']}} </span>
 
 
           <ul class="list-group mt-2" *ngFor="let grandchild of child.children; let i = index">
-            <div *ngIf="grandchild.data">
+            <div *ngIf="grandchild.data && (grandchild.data['requiresRegister'] ? locStor.isRegistered() : true) ">
 
               <li (click)="grandchild.children ? toggleChildMenu(i) : goTo(child.path,grandchild.path)" class="pointer">
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routes } from 'src/app/app-routing.module';
+import { LocalStorageService } from 'src/services/localStorage.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -11,7 +12,7 @@ export class SideBarComponent implements OnInit {
   routes = routes;
   expandedChildIndices: { [key: number]: boolean } = {};
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public locStor: LocalStorageService) {}
 
   ngOnInit() {}
 

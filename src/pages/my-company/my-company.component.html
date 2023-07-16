@@ -1,3 +1,280 @@
-<p>
-  my-company works!
-</p>
+<div *ngIf="!localStorageService.isRegistered() else registeredContent" class="row align-items-center h-100">
+
+  <div class="col d-flex flex-column justify-content-center text-center px-5">
+    <h1> Olá, {{ currentUser?.fullName }} . Seja bem-vindo </h1>
+    <span class="my-4"> É necessário configurar a empresa matriz para <br> visualizar todas as informações do sistema.
+    </span>
+    <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#configModal">
+      Iniciar Configuração
+    </button>
+  </div>
+
+  <div class="col">
+
+    <ng-lottie [options]="options"></ng-lottie>
+
+  </div>
+
+</div>
+
+<ng-template #registeredContent>
+
+  <div class="d-flex flex-column">
+
+    <div class="card-box d-flex flex-row align-items-center p-4">
+      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+        Editar empresa
+        <fa-icon [icon]="['fas', 'edit']" class="ml-2"></fa-icon>
+      </button>
+      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+        Gestão de filiais
+        <fa-icon [icon]="['fas', 'building']" class="ml-2"></fa-icon>
+      </button>
+      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+        Faixas salariais
+        <fa-icon [icon]="['fas', 'money-bill-alt']" class="ml-2"></fa-icon>
+      </button>
+      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+        Job Level
+        <fa-icon [icon]="['fas', 'level-up-alt']" class="ml-2"></fa-icon>
+      </button>
+    </div>
+
+
+    <div class="card-box p-4">
+      <div class="row w-100 mx-1 mt-5">
+
+        <div class="col d-flex flex-column">
+          <span> Nome da empresa </span>
+          {{ registerCompany?.nomeEmpresa }}
+        </div>
+
+        <div class="col d-flex flex-column">
+          <span> CNPJ da empresa </span>
+          {{ registerCompany?.cnpjEmpresa! | mask: '00.000.000/0000-00' }}
+        </div>
+
+        <div class="col d-flex flex-column">
+          <span> Nome do administrador </span>
+          {{ registerCompany?.nomeAdministrador }}
+        </div>
+
+      </div>
+
+      <div class="row w-100 mx-1 my-5">
+
+        <div class="col d-flex flex-column">
+          <span> CPF do administrador </span>
+          {{ registerCompany?.cpf! | mask: '000.000.000-00' }}
+        </div>
+
+        <div class="col d-flex flex-column">
+          <span> E-mail </span>
+          {{ registerCompany?.email }}
+        </div>
+
+        <div class="col d-flex flex-column">
+          <span> Telefone </span>
+          {{ registerCompany?.celular! | mask: '(00) 00000-0000' }}
+        </div>
+
+      </div>
+
+
+      <div class="row w-100 mx-1 my-5">
+
+        <div class="col d-flex flex-column">
+          <span> CEP </span>
+          {{ registerCompany?.cep! | mask: '00000-000' }}
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-8 d-flex flex-column">
+          <span> Endereço </span>
+          {{ registerCompany?.endereco }}
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ng-template>
+
+
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModal" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar empresa</h5>
+        <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="registerCompanyForm">
+
+          <div class="form-group mt-2">
+            <label class="my-1">Tipo de Empresa</label>
+            <input type="text" class="form-control" formControlName="tipoEmpresa"
+              placeholder="Digite o tipo da empresa">
+
+            <div
+              *ngIf="registerCompanyForm.get('tipoEmpresa')?.errors && registerCompanyForm.get('tipoEmpresa')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('tipoEmpresa')?.errors!['required']">Tipo de
+                Empresa é obrigatório</small>
+            </div>
+          </div>
+
+          <div class="form-group mt-2">
+            <label class="my-1">Nome da Empresa</label>
+            <input type="text" class="form-control" formControlName="nomeEmpresa"
+              placeholder="Digite o nome da empresa">
+
+            <div
+              *ngIf="registerCompanyForm.get('nomeEmpresa')?.errors && registerCompanyForm.get('nomeEmpresa')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('nomeEmpresa')?.errors!['required']">Nome da
+                Empresa é obrigatório</small>
+            </div>
+
+            <label class="my-1">CNPJ da Empresa</label>
+            <input type="text" mask="00.000.000/0000-00" class="form-control" formControlName="cnpjEmpresa"
+              placeholder="Digite o CNPJ da empresa">
+
+            <div class="d-flex flex-column"
+              *ngIf="registerCompanyForm.get('cnpjEmpresa')?.errors && registerCompanyForm.get('cnpjEmpresa')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('cnpjEmpresa')?.errors!['required']">CNPJ da
+                Empresa é obrigatório</small>
+              <small class="text-danger" *ngIf="registerCompanyForm.get('cnpjEmpresa')?.errors!['pattern']">Formato de
+                CNPJ inválido</small>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-4 form-group">
+              <label class="my-1">CEP</label>
+              <input type="text" class="form-control" mask="00000-000" formControlName="cep" placeholder="Digite o CEP">
+
+              <div class="d-flex flex-column"
+                *ngIf="registerCompanyForm.get('cep')?.errors && registerCompanyForm.get('cep')?.touched">
+                <small class="text-danger" *ngIf="registerCompanyForm.get('cep')?.errors!['required']">CEP é
+                  obrigatório</small>
+                <small class="text-danger" *ngIf="registerCompanyForm.get('cep')?.errors!['pattern']">Formato de CEP
+                  inválido</small>
+              </div>
+            </div>
+
+            <div class="col-md-4 form-group">
+              <label class="my-1">Endereço</label>
+              <input type="text" class="form-control" formControlName="endereco" placeholder="Digite o endereço">
+
+              <div *ngIf="registerCompanyForm.get('endereco')?.errors && registerCompanyForm.get('endereco')?.touched">
+                <small class="text-danger" *ngIf="registerCompanyForm.get('endereco')?.errors!['required']">Endereço é
+                  obrigatório</small>
+              </div>
+            </div>
+
+            <div class="col-md-4 form-group">
+              <label class="my-1">Bairro</label>
+              <input type="text" class="form-control" formControlName="bairro" placeholder="Digite o bairro">
+
+              <div *ngIf="registerCompanyForm.get('bairro')?.errors && registerCompanyForm.get('bairro')?.touched">
+                <small class="text-danger" *ngIf="registerCompanyForm.get('bairro')?.errors!['required']">Bairro é
+                  obrigatório</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6 form-group">
+              <label class="my-1">Estado</label>
+              <select class="form-control" formControlName="estado" (change)="onEstadoSelected($event)">
+                <option value="">Selecione o estado</option>
+                <option *ngFor="let estado of estados" [value]="estado.id">{{estado.nome}}</option>
+              </select>
+
+              <div *ngIf="registerCompanyForm.get('estado')?.errors && registerCompanyForm.get('estado')?.touched">
+                <small class="text-danger" *ngIf="registerCompanyForm.get('estado')?.errors!['required']">Estado é
+                  obrigatório</small>
+              </div>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="my-1">Cidade</label>
+              <select class="form-control" formControlName="cidade">
+                <option value="">Selecione a cidade</option>
+                <option *ngFor="let cidade of cidades" [value]="cidade.id">{{cidade.nome}}</option>
+              </select>
+
+              <div *ngIf="registerCompanyForm.get('cidade')?.errors && registerCompanyForm.get('cidade')?.touched">
+                <small class="text-danger" *ngIf="registerCompanyForm.get('cidade')?.errors!['required']">Cidade é
+                  obrigatória</small>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group mt-2">
+            <label class="my-1">Complemento</label>
+            <input type="text" class="form-control" formControlName="complemento" placeholder="Digite o complemento">
+          </div>
+
+          <div class="form-group mt-2">
+            <label class="my-1">Celular</label>
+            <input type="text" class="form-control" mask="(00) 00000-0000" formControlName="celular"
+              placeholder="Digite o número do celular">
+
+            <div class="d-flex flex-column"
+              *ngIf="registerCompanyForm.get('celular')?.errors && registerCompanyForm.get('celular')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('celular')?.errors!['required']">Celular é
+                obrigatório</small>
+              <small class="text-danger" *ngIf="registerCompanyForm.get('celular')?.errors!['pattern']">Formato de
+                celular inválido</small>
+            </div>
+
+            <label class="my-1">Nome do Administrador</label>
+            <input type="text" class="form-control" formControlName="nomeAdministrador"
+              placeholder="Digite o nome do administrador">
+
+            <div
+              *ngIf="registerCompanyForm.get('nomeAdministrador')?.errors && registerCompanyForm.get('nomeAdministrador')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('nomeAdministrador')?.errors!['required']">Nome
+                do Administrador é obrigatório</small>
+            </div>
+
+            <label class="my-1">CPF</label>
+            <input type="text" class="form-control" formControlName="cpf" mask="000.000.000-00"
+              placeholder="Digite o CPF">
+
+            <div class="d-flex flex-column"
+              *ngIf="registerCompanyForm.get('cpf')?.errors && registerCompanyForm.get('cpf')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('cpf')?.errors!['required']">CPF é
+                obrigatório</small>
+              <small class="text-danger" *ngIf="registerCompanyForm.get('cpf')?.errors!['pattern']">Formato de CPF
+                inválido</small>
+            </div>
+
+            <label class="my-1">Email</label>
+            <input type="text" class="form-control" formControlName="email" placeholder="Digite o email">
+
+            <div *ngIf="registerCompanyForm.get('email')?.errors && registerCompanyForm.get('email')?.touched">
+              <small class="text-danger" *ngIf="registerCompanyForm.get('email')?.errors!['required']">Email é
+                obrigatório</small>
+            </div>
+          </div>
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" (click)="onSubmit()" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
