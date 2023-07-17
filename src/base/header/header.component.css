@@ -12,5 +12,9 @@
 
 nav {
   box-shadow: var(--smooth-shadow);
+  justify-content: end;
+}
 
+.navbar-brand{
+  display: none;
 }

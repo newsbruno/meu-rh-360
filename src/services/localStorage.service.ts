@@ -35,4 +35,9 @@ export class LocalStorageService {
     const registerCompany = this.getRegisterCompany;
     return registerCompany !== null;
   }
+
+  signOut() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("registerCompany");
+  }
 }

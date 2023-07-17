@@ -43,7 +43,9 @@ export class MyCompanyComponent implements OnInit {
   estados: any[] | undefined;
   cidades: any[] | undefined;
 
-  registerCompany : RegisterCompany | null = {} as RegisterCompany;
+  registerCompany: RegisterCompany | null = {} as RegisterCompany;
+
+  cidadeLoadedVal: string = '';
 
   constructor(
     public localStorageService: LocalStorageService,
@@ -67,6 +69,18 @@ export class MyCompanyComponent implements OnInit {
       this.localidadeService.getCidades(Number(val.target.value))
     );
     this.cidades = result;
+
+    if (this.cidadeLoadedVal) {
+      const cidadeFiltered = this.cidades?.find(
+        (v) => v.nome == this.cidadeLoadedVal
+      );
+
+      this.registerCompanyForm.patchValue({
+        cidade: cidadeFiltered.id,
+      });
+
+      this.cidadeLoadedVal = '';
+    }
   }
 
   onSubmit(): void {
@@ -77,6 +91,8 @@ export class MyCompanyComponent implements OnInit {
 
     this.localStorageService.saveRegisterCompany = this.registerCompanyForm
       .value as RegisterCompany;
+
+    alert('Empresa cadastrado com sucesso.');
   }
 
   patternValidator(pattern: RegExp): ValidatorFn {
@@ -95,5 +111,26 @@ export class MyCompanyComponent implements OnInit {
       const isValid = pattern.test(value);
       return isValid ? null : { pattern: { value: control.value } };
     };
+  }
+
+  async getAddress() {
+    const zip_code = this.registerCompanyForm.get('cep')?.value;
+
+    if (this.registerCompanyForm.get('cep')?.valid) {
+      const response = await fetch(
+        `https://viacep.com.br/ws/${zip_code!.replace('-', '')}/json/`
+      );
+      const data = await response.json();
+
+      if (!data.erro) {
+        this.cidadeLoadedVal = data.localidade;
+        const estadoFiltered = this.estados?.find((v) => v.sigla == data.uf);
+        this.registerCompanyForm.patchValue({
+          bairro: data.bairro,
+          estado: estadoFiltered.id,
+        });
+        this.onEstadoSelected({ target: { value: estadoFiltered.id } });
+      }
+    }
   }
 }

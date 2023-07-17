@@ -29,4 +29,24 @@
     display: none !important;
   }
 
+  nav {
+    justify-content: space-between !important;
+  }
+
+  .navbar-brand{
+    display: inline-block !important;
+  }
+
 }
+
+.tippy-box[data-theme~='white'] {
+  background-color: rgb(237, 237, 237) ;
+  color: black;
+}
+
+.tippy-box[data-theme~='white'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-top-color: rgb(237, 237, 237) ;
+  color: rgb(237, 237, 237) ;
+}
+
+

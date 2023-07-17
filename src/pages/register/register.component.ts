@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/models/user.model';
 import { DeviceService } from 'src/services/device.service';
 import { LocalStorageService } from 'src/services/localStorage.service';
@@ -33,11 +34,11 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   get f() {
     return this.registerForm.controls;
@@ -50,16 +51,15 @@ export class RegisterComponent implements OnInit {
     }
 
     const user: User = {
-      fullName:  this.registerForm.get('fullName')?.value,
+      fullName: this.registerForm.get('fullName')?.value,
       email: this.registerForm.get('email')?.value,
-      password:  this.registerForm.get('password')?.value,
+      password: this.registerForm.get('password')?.value,
       confirmPassword: this.registerForm.get('confirmPassword')?.value,
-      acceptTerms: this.registerForm.get('acceptTerms')?.value
+      acceptTerms: this.registerForm.get('acceptTerms')?.value,
     };
 
     this.localStorageService.saveUser = user;
 
+    this.router.navigate(['']);
   }
-
-
 }

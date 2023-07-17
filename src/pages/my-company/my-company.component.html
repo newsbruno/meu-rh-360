@@ -21,24 +21,25 @@
 
   <div class="d-flex flex-column">
 
-    <div class="card-box d-flex flex-row align-items-center p-4">
-      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+    <div class="card-box d-flex flex-column flex-md-row align-items-center p-4">
+      <button type="button" class="btn btn-outline-primary mx-2 my-2 d-flex align-items-center justify-content-between">
         Editar empresa
         <fa-icon [icon]="['fas', 'edit']" class="ml-2"></fa-icon>
       </button>
-      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+      <button type="button" class="btn btn-outline-primary mx-2 my-2 d-flex align-items-center justify-content-between">
         Gestão de filiais
         <fa-icon [icon]="['fas', 'building']" class="ml-2"></fa-icon>
       </button>
-      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+      <button type="button" class="btn btn-outline-primary mx-2 my-2 d-flex align-items-center justify-content-between">
         Faixas salariais
         <fa-icon [icon]="['fas', 'money-bill-alt']" class="ml-2"></fa-icon>
       </button>
-      <button type="button" class="btn btn-outline-primary mx-2 d-flex align-items-center justify-content-between">
+      <button type="button" class="btn btn-outline-primary mx-2 my-2 d-flex align-items-center justify-content-between">
         Job Level
         <fa-icon [icon]="['fas', 'level-up-alt']" class="ml-2"></fa-icon>
       </button>
     </div>
+
 
 
     <div class="card-box p-4">
@@ -156,7 +157,7 @@
           <div class="row mt-2">
             <div class="col-md-4 form-group">
               <label class="my-1">CEP</label>
-              <input type="text" class="form-control" mask="00000-000" formControlName="cep" placeholder="Digite o CEP">
+              <input (blur)="getAddress()" type="text" class="form-control" mask="00000-000" formControlName="cep" placeholder="Digite o CEP">
 
               <div class="d-flex flex-column"
                 *ngIf="registerCompanyForm.get('cep')?.errors && registerCompanyForm.get('cep')?.touched">
